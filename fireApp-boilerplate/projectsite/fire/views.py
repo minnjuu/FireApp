@@ -139,7 +139,7 @@ def MultilineIncidentTop3Country(request):
     return JsonResponse(result)
 
 
-def multipleBarbySeverity(request):
+def MultiBarbySeverity(request):
     query = '''
     SELECT 
         fi.severity_level,
