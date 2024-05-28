@@ -14,8 +14,13 @@ urlpatterns = [
     path('multiBarChart/', MultiBarbySeverity, name='chart'),
     path('stations', views.map_station, name='map-station'),
     path('firestationlist', FireStationList.as_view(), name='firestation-list'),
-    path('firestation/add', FireStationCreateView.as_view(), name='firestation-add'),
+    path('firestationlist/add', FireStationCreateView.as_view(), name='firestation-add'),
     path('firestationlist/<pk>', FireStationUpdateView.as_view(), name='firestation-update'),
     path('firestationlist/<pk>/delete', FireStationDeleteView.as_view(), name='firestation-delete'),
+    path('incidentlist', IncidentList.as_view(), name='incident-list'),
+    path('incidentlist/add', IncidentCreateView.as_view(), name='incident-add'),
+    path('incidentlist/<pk>', IncidentUpdateView.as_view(), name='incident-update'),
+    path('incidentlist/<pk>/delete', IncidentDeleteView.as_view(), name='incident-delete'),
+    
 
 ]
