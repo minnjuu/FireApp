@@ -58,3 +58,15 @@ class FireTruckForm(ModelForm):
             'station': 'Station',
         }
 
+
+class FirefightersForm(ModelForm):
+    class Meta:
+        model = Firefighters
+        fields = "__all__"
+        labels = {
+            'name': 'Name',  
+            'rank': 'Rank',  
+            'experience_level': 'Experience Level',
+            'station': 'Station',
+        }
+
