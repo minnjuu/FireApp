@@ -36,9 +36,6 @@
             <label for="citySelect">Select City:</label>
             <select id="citySelect" class="form-control">
               <option value="all">All</option>
-              {% for city in cities %}
-              <option value="{{ city }}">{{ city }}</option>
-              {% endfor %}
             </select>
           </div>
         </div>
@@ -66,6 +63,22 @@
   var markers = [];
 
   var markerData = {{ fireStations|safe }};
+  var cityData = {};
+
+  // Extract city data from markerData
+  markerData.forEach(function(data) {
+    if (!cityData[data.city]) {
+      cityData[data.city] = {
+        latitude: parseFloat(data.latitude),
+        longitude: parseFloat(data.longitude)
+      };
+      // Add city to dropdown
+      var option = document.createElement("option");
+      option.value = data.city;
+      option.textContent = data.city;
+      document.getElementById('citySelect').appendChild(option);
+    }
+  });
 
   function updateMarkers(city) {
     markers.forEach(function(marker) {
@@ -73,7 +86,14 @@
     });
     markers = [];
 
-    markerData.forEach(function (data) {
+    if (city !== 'all') {
+      var cityCenter = cityData[city];
+      map.setView([cityCenter.latitude, cityCenter.longitude], 13);
+    } else {
+      map.setView([9.81644, 118.72239], 13);
+    }
+
+    markerData.forEach(function(data) {
       if (city === 'all' || data.city === city) {
         var latitude = parseFloat(data.latitude);
         var longitude = parseFloat(data.longitude);
@@ -85,11 +105,11 @@
 
         marker.bindPopup(popupContent);
 
-        marker.on('mouseover', function (e) {
+        marker.on('mouseover', function(e) {
           this.openPopup();
         });
 
-        marker.on('mouseout', function (e) {
+        marker.on('mouseout', function(e) {
           this.closePopup();
         });
 
