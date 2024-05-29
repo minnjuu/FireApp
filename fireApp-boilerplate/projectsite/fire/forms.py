@@ -1,6 +1,6 @@
 from django.forms import ModelForm, DateTimeInput
 from django import forms
-from fire.models import Locations, Incident, FireStation
+from fire.models import Locations, Incident, FireStation, FireTruck, Firefighters, WeatherConditions
 
 class FireStationForm(ModelForm):
     class Meta:
@@ -32,5 +32,29 @@ class IncidentForm(ModelForm):
             'date_time': 'Date Time',  
             'severity_level': 'Severity Level',
             'description': 'Description',
+        }
+
+class LocationForm(ModelForm):
+    class Meta:
+        model = Locations
+        fields = "__all__"
+        labels = {
+            'name': 'Location Name',  
+            'latitude': 'Latitude',  
+            'longitude': 'Longitude',
+            'address': 'Address',
+            'city': 'City',
+            'country': 'Country',
+        }
+
+class FireTruckForm(ModelForm):
+    class Meta:
+        model = FireTruck
+        fields = "__all__"
+        labels = {
+            'truck_number': 'Truck Number',  
+            'model': 'Model',  
+            'capacity': 'Capacity',
+            'station': 'Station',
         }
 

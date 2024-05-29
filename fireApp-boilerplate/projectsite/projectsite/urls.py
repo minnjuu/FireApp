@@ -21,6 +21,13 @@ urlpatterns = [
     path('incidentlist/add', IncidentCreateView.as_view(), name='incident-add'),
     path('incidentlist/<pk>', IncidentUpdateView.as_view(), name='incident-update'),
     path('incidentlist/<pk>/delete', IncidentDeleteView.as_view(), name='incident-delete'),
-    
+    path('locationlist', LocationList.as_view(), name='location-list'),
+    path('locationlist/add', LocationCreateView.as_view(), name='location-add'),
+    path('locationlist/<pk>', LocationUpdateView.as_view(), name='location-update'),
+    path('locationlist/<pk>/delete', LocationDeleteView.as_view(), name='location-delete'),
+    path('firetrucklist', FireTruckList.as_view(), name='firetruck-list'),
+    path('firetrucklist/add', FireTruckCreateView.as_view(), name='firetruck-add'),
+    path('firetrucklist/<pk>', FireTruckUpdateView.as_view(), name='firetruck-update'),
+    path('firetrucklist/<pk>/delete', FireTruckDeleteView.as_view(), name='firetruck-delete'),
 
 ]
