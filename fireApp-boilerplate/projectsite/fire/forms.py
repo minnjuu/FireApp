@@ -70,3 +70,16 @@ class FirefightersForm(ModelForm):
             'station': 'Station',
         }
 
+
+class WeatherConditionForm(ModelForm):
+    class Meta:
+        model = WeatherConditions
+        fields = "__all__"
+        labels = {
+            'incident': 'Incident',  
+            'temperature': 'Temperature',  
+            'humidity': 'Humidity',
+            'wind_speed': 'Wind Speed',
+            'weather_description': 'Weather Description',
+        }
+

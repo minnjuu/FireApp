@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from fire.models import Locations, Incident, FireStation, FireTruck, Firefighters, WeatherConditions
-from fire.forms import FireStationForm, IncidentForm, LocationForm, FireTruckForm, FirefightersForm
+from fire.forms import FireStationForm, IncidentForm, LocationForm, FireTruckForm, FirefightersForm, WeatherConditionForm
 from django.db import connection
 from django.http import JsonResponse
 from django.db.models.functions import ExtractMonth
@@ -354,6 +354,39 @@ class FireFighterDeleteView(DeleteView):
     model = Firefighters
     template_name = 'firefighter_del.html'
     success_url = reverse_lazy('firefighter-list')
+
+
+
+class WeatherConditionList(ListView):
+    model = WeatherConditions
+    context_object_name = 'weathercondition'
+    template_name = "weatherconditionlist.html"
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(WeatherConditionList, self).get_queryset(*args, **kwargs)
+        if self.request.GET.get("q") != None:
+            query = self.request.GET.get('q')
+            qs = qs.filter(Q(incident__description__icontains=query) |
+            Q(temperature__icontains=query) | Q(humidity__icontains=query) | Q(wind_speed__icontains=query))
+        return qs
+    
+class WeatherConditionCreateView(CreateView):
+    model = WeatherConditions
+    form_class = WeatherConditionForm
+    template_name = "weathercondition_add.html"
+    success_url = reverse_lazy('weathercondition-list')
+
+class WeatherConditionUpdateView(UpdateView):
+    model = WeatherConditions
+    form_class = WeatherConditionForm
+    template_name = "weathercondition_edit.html"
+    success_url = reverse_lazy('weathercondition-list')
+
+class WeatherConditionDeleteView(DeleteView):
+    model = WeatherConditions
+    template_name = 'weathercondition_del.html'
+    success_url = reverse_lazy('weathercondition-list')
 
 
 

@@ -33,5 +33,9 @@ urlpatterns = [
     path('firefighterlist/add', FireFighterCreateView.as_view(), name='firefighter-add'),
     path('firefighterlist/<pk>', FireFighterUpdateView.as_view(), name='firefighter-update'),
     path('firefighterlist/<pk>/delete', FireFighterDeleteView.as_view(), name='firefighter-delete'),
+    path('weatherconditionlist', WeatherConditionList.as_view(), name='weathercondition-list'),
+    path('weatherconditionlist/add', WeatherConditionCreateView.as_view(), name='weathercondition-add'),
+    path('weatherconditionlist/<pk>', WeatherConditionUpdateView.as_view(), name='weathercondition-update'),
+    path('weatherconditionlist/<pk>/delete', WeatherConditionDeleteView.as_view(), name='weathercondition-delete'),
 
 ]
