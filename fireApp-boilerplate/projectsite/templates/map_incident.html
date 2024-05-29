@@ -2,6 +2,8 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
 <div class="page-inner">
   <div class="page-header">
@@ -52,10 +54,11 @@
   </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script>
   var map = L.map('map').setView([9.81644, 118.72239], 13);
   var fireIcon = L.icon({
-    iconUrl: "{% static 'img/fire-truck-3.png' %}", // Update this path to your fire icon
+    iconUrl: "{% static 'img/fire.png' %}", // Update this path to your fire icon
     iconSize: [50, 50], // Adjust the size as needed
   });
 
@@ -63,43 +66,41 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  var markers = [];
+  var markers = L.markerClusterGroup();
 
   var markerData = {{ incidentData|safe }};
 
   function updateMarkers(city) {
-    markers.forEach(function(marker) {
-      map.removeLayer(marker);
-    });
-    markers = [];
+    markers.clearLayers();
 
     markerData.forEach(function (data) {
       if (city === 'all' || data.city === city) {
         var latitude = parseFloat(data.latitude);
         var longitude = parseFloat(data.longitude);
 
-        var marker = L.marker([latitude, longitude], { icon: fireIcon }).addTo(map);
+        var marker = L.marker([latitude, longitude], { icon: fireIcon });
 
         var popupContent = '<strong>' + data.description + '</strong><br>' +
                            'Severity: ' + data.severity_level + '<br>' +
                            'Date/Time: ' + data.date_time + '<br>' +
                            data.address + '<br>' +
                            data.city;
-        var popup = L.popup().setContent(popupContent);
 
         marker.bindPopup(popupContent);
 
-        marker.on('mouseover', function (e) {
+        marker.on('mouseover', function(e) {
           this.openPopup();
         });
 
-        marker.on('mouseout', function (e) {
+        marker.on('mouseout', function(e) {
           this.closePopup();
         });
 
-        markers.push(marker);
+        markers.addLayer(marker);
       }
     });
+
+    map.addLayer(markers);
   }
 
   updateMarkers('all');
