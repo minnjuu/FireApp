@@ -72,8 +72,8 @@ class Command(BaseCommand):
             station = random.choice(fire_stations)
             Firefighters.objects.create(
                 name=fake.name(),
-                rank=fake.job(),
-                experience_level=random.choice([choice[0] for choice in Firefighters.XP_CHOICES]),
+                rank=random.choice([choice[0] for choice in Firefighters.XP_CHOICES]),
+                experience_level=fake.job(),
                 station=station
             )
         self.stdout.write(self.style.SUCCESS('Initial data for firefighters created successfully.'))

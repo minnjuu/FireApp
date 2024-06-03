@@ -63,8 +63,8 @@ class Firefighters(BaseModel):
         ('Battalion Chief', 'Battalion Chief'),
     )
     name = models.CharField(max_length=150)
-    rank = models.CharField(max_length=150)
-    experience_level = models.CharField(max_length=45, choices=XP_CHOICES)  
+    rank = models.CharField(max_length=45, choices=XP_CHOICES)
+    experience_level = models.CharField(max_length=45)  
     station = models.ForeignKey(FireStation, on_delete=models.CASCADE)  
 
     def __str__(self):
